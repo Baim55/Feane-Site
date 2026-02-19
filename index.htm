@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="stylesheet" href="src/output.css" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div
+        class="pt-[45px] pb-[90px] grid grid-cols-1 md:grid-cols-2 gap-6 px-[15px] lg:px-0"
+      >
+        <div
+          class="bg-[#222831] rounded-[6px] text-white px-[15px] py-[20px] flex flex-col sm:flex-row md:flex-col lg:flex-row items-center justify-center sm:justify-start text-center sm:text-left md:text-center lg:text-left"
+        >
+          <div class="mb-[15px] mr-[15px] overflow-hidden rounded-full">
+            <img
+              src="src/img/o1.jpg"
+              alt=""
+              class="w-[175px] h-[175px] object-cover rounded-full border-[10px] border-[#ffbe33] transition-transform duration-300 hover:scale-110"
+            />
+          </div>
+          <div>
+            <h5 class="dancing text-[24px]">Tasty Thursdays</h5>
+            <h6 class="my-[10px] dancing text-[24px]">
+              <span class="text-[40px]">20%</span>Off
+            </h6>
+            <a
+              href=""
+              class="bg-[#ffbe33] hover:bg-[#e69c00] duration-200 rounded-4xl py-[10px] px-[30px] flex items-center justify-center gap-2"
+              >Order Now<i class="fa-solid fa-cart-shopping"></i
+            ></a>
+          </div>
+        </div>
+        <div
+          class="bg-[#222831] rounded-[6px] text-white px-[15px] py-[20px] flex flex-col sm:flex-row md:flex-col lg:flex-row items-center justify-center sm:justify-start text-center sm:text-left md:text-center lg:text-left"
+        >
+          <div class="mb-[15px] mr-[15px] overflow-hidden rounded-full">
+            <img
+              src="src/img/o2.jpg"
+              alt=""
+              class="w-[175px] h-[175px] object-cover rounded-full border-[10px] border-[#ffbe33] transition-transform duration-300 hover:scale-110"
+            />
+          </div>
+          <div>
+            <h5 class="dancing text-[24px]">Pizza Days</h5>
+            <h6 class="my-[10px] dancing text-[24px]">
+              <span class="text-[40px]">15%</span>Off
+            </h6>
+            <a
+              href=""
+              class="bg-[#ffbe33] hover:bg-[#e69c00] duration-200 rounded-4xl py-[10px] px-[30px] flex items-center justify-center gap-2"
+              >Order Now<i class="fa-solid fa-cart-shopping"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+    <section class="mb-[45px]">
+      <div class="container">
+        <div class="text-center px-[15px]">
+          <h2 class="dancing text-[#0c0c0c] text-[40px] font-bold">Our Menu</h2>
+          <div class="py-[45px] px-[20px] text-[#0c0c0c]">
+            <ul class="flex items-center justify-center flex-wrap">
+              <li class="text-white">
+                <a
+                  href=""
+                  class="bg-[#222831] py-[7px] px-[25px] rounded-2xl inline-block"
+                  >All</a
+                >
+              </li>
+              <li>
+                <a href="" class="py-[7px] px-[25px] rounded-2xl inline-block"
+                  >Burger</a
+                >
+              </li>
+              <li>
+                <a href="" class="py-[7px] px-[25px] rounded-2xl inline-block"
+                  >Pizza</a
+                >
+              </li>
+              <li>
+                <a href="" class="py-[7px] px-[25px] rounded-2xl inline-block"
+                  >Pasta</a
+                >
+              </li>
+              <li>
+                <a href="" class="py-[7px] px-[25px] rounded-2xl inline-block"
+                  >Fries</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div
+            id="eat"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"
+          ></div>
+          <a
+            href=""
+            class="text-white bg-[#ffbe33] hover:bg-[#e69c00] duration-200 mt-[45px] inline-block rounded-4xl py-[10px] px-[30px] items-center justify-center gap-2"
+            >View more</a
+          >
+        </div>
+      </div>
+    </section>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="src/js/script.js"></script>
+  </body>
+</html>
