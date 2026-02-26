@@ -28,17 +28,23 @@
           <a href="">
             <span class="dancing text-[32px]">Feane</span>
           </a>
-          <div class="relative">
+          <div class="flex items-center justify-center gap-3">
             <i
-              onclick="openModalBasket()"
-              class="fa-solid fa-cart-shopping hover:text-[#ffbe33] duration-300 cursor-pointer text-xl"
+              onclick="openModalWishlist()"
+              class="fa-solid fa-heart text-xl hover:text-[#ffbe33] duration-300"
             ></i>
-            <span
-              id="cartCountMobile"
-              class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
-            >
-              0
-            </span>
+            <div class="relative">
+              <i
+                onclick="openModalBasket()"
+                class="fa-solid fa-cart-shopping hover:text-[#ffbe33] duration-300 cursor-pointer text-xl"
+              ></i>
+              <span
+                id="cartCountMobile"
+                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
+              >
+                0
+              </span>
+            </div>
           </div>
         </div>
         <div class="hidden md:flex items-center justify-between">
