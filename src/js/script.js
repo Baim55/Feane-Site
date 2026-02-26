@@ -1,14 +1,23 @@
 const eat = document.getElementById("eat");
 let cartList = document.getElementById("cartList");
-let cartCount = document.getElementById("cartCount");
-let cartCountMobile = document.getElementById("cartCountMobile");
+let wishlistList = document.getElementById("wishlistList");
+let count = document.getElementById("cartCount");
+let countMobile = document.getElementById("cartCountMobile");
 let basket = [];
+let wishlist = [];
 
-function openModal() {
-  let modal = document.getElementById("modal");
-  modal.style.display === "none"
-    ? (modal.style.display = "block")
-    : (modal.style.display = "none");
+function openModalWishlist() {
+  let modalWishlist = document.getElementById("modalWishlist");
+  modalWishlist.style.display === "none"
+    ? (modalWishlist.style.display = "block")
+    : (modalWishlist.style.display = "none");
+}
+
+function openModalBasket() {
+  let modalBasket = document.getElementById("modalBasket");
+  modalBasket.style.display === "none"
+    ? (modalBasket.style.display = "block")
+    : (modalBasket.style.display = "none");
 }
 
 class Food {
@@ -20,32 +29,45 @@ class Food {
     this.price = price;
   }
   showFood() {
-    return `<div data-aos="fade-up" class="rounded-2xl overflow-hidden bg-[#222831]">
-              <div
-                class="p-[25px] rounded-bl-3xl bg-[#f1f2f3] flex items-center justify-center hov"
+    return `
+     <div
+                id="${this.id}"
+                data-aos="fade-up"
+                class="relative rounded-2xl overflow-hidden bg-[#222831]"
               >
-                <img
-                  src="${this.img}"
-                  alt="" 
-                  class="w-[180px] h-[180px] object-contain transition duration-300 hover:scale-105"
-                />
-              </div>
-              <div class="p-[25px]  text-white">
-                <h5 class="mb-[8px] text-[20px] font-bold">${this.title}</h5>
-                <p class="mb-[16px] text-[15px]">
-                  ${this.desc}
-                </p>
-                <div class="flex items-center justify-between">
-                  <h6>$${this.price}</h6>
-                  <a
-                  onclick="event.preventDefault(); addBasket(${this.id})"
-                    href=""
-                    class="w-[40px] h-[40px] bg-[#ffbe33] flex items-center justify-center rounded-full"
-                    ><i class="fa-solid fa-cart-shopping" ></i
-                  ></a>
+                <button
+                  onclick="event.preventDefault(); addWishlist(${this.id})"
+                  class="absolute top-3 right-3 z-10 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow hover:scale-110 transition"
+                >
+                  <i id="heart-${this.id}" class="fa-regular fa-heart text-red-500"></i>
+                </button>
+
+                <div
+                  class="p-[25px] rounded-bl-3xl bg-[#f1f2f3] flex items-center justify-center hov"
+                >
+                  <img
+                    src="${this.img}"
+                    alt=""
+                    class="w-[180px] h-[180px] object-contain transition duration-300 hover:scale-105"
+                  />
                 </div>
-              </div>
-            </div>`;
+
+                <div class="p-[25px] text-white">
+                  <h5 class="mb-[8px] text-[20px] font-bold">${this.title}</h5>
+                  <p class="mb-[16px] text-[15px]">${this.desc}</p>
+
+                  <div class="flex items-center justify-between">
+                    <h6>$${this.price}</h6>
+                    <a
+                      onclick="event.preventDefault(); addBasket(${this.id})"
+                      href=""
+                      class="w-[40px] h-[40px] bg-[#ffbe33] flex items-center justify-center rounded-full"
+                    >
+                      <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>`;
   }
 }
 
@@ -119,12 +141,108 @@ for (let i = 0; i < allFood.length; i++) {
   eat.innerHTML += `${allFood[i].showFood()}`;
 }
 
+function addWishlist(id) {
+  const heart = document.getElementById(`heart-${id}`);
+  let message = "";
+
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter((item) => item !== id);
+    heart.className = "fa-regular fa-heart text-red-500";
+    message = "Product removed to wishlist!";
+  } else {
+    wishlist.push(id);
+    heart.className = "fa-solid fa-heart text-red-500";
+    message = "Product added to wishlist!";
+  }
+  showWishlist();
+  Toastify({
+    text: message,
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "right",
+    style: {
+      background: wishlist.includes(id)
+        ? "linear-gradient(to right, #00b09b, #96c93d)"
+        : "linear-gradient(to right, #ff416c, #ff4b2b)",
+    },
+  }).showToast();
+}
+
+function removeWishlist(index) {
+  let modalWishlist = document.getElementById("modalWishlist");
+  const removedId = wishlist[index];
+  const heart = document.getElementById(`heart-${removedId}`);
+  wishlist.splice(index, 1);
+  if (heart) {
+    heart.className = "fa-regular fa-heart text-red-500";
+  }
+  showWishlist();
+  wishlist.length == 0
+    ? (modalWishlist.style.display = "none")
+    : (modalWishlist.style.display = "block");
+
+  Toastify({
+    text: `Product removed to wishlist!`,
+    duration: 3000,
+    destination: "https://github.com/apvarun/toastify-js",
+    newWindow: true,
+    close: true,
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true,
+    style: {
+      background: "linear-gradient(to right, #ff416c, #ff4b2b)",
+    },
+    onClick: function () {},
+  }).showToast();
+}
+
+function showWishlist() {
+  wishlistList.innerHTML = "";
+  wishlistList.innerHTML = wishlist
+    .map((id, index) => {
+      const product = allFood.find((p) => p.id === id);
+      return `
+     <div class="grid md:grid-cols-4 items-center md:gap-4 gap-6 py-4">
+                  <div class="col-span-2 flex items-center gap-6">
+                    <div class="w-20 h-20 shrink-0">
+                      <img src='${product.img}'
+                        class="w-full h-full object-contain" />
+                    </div>
+                    <div>
+                      <h3 class="text-[15px] font-semibold text-slate-900">${product.title}</h3>
+                    </div>
+                  </div>
+                  <div class="flex items-center">
+                    <h4 class="text-[15px] font-semibold text-slate-900">${product.price} $</h4>
+                    <svg onclick="removeWishlist(${index})" xmlns="http://www.w3.org/2000/svg" class="w-3 cursor-pointer shrink-0 fill-red-500 ml-auto"
+                      viewBox="0 0 320.591 320.591">
+                      <path
+                        d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
+                        data-original="#000000"></path>
+                      <path
+                        d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
+                        data-original="#000000"></path>
+                    </svg>
+                  </div>
+                </div>
+    `;
+    })
+    .join("");
+}
+
 function addBasket(id) {
-  basket.push(id);
+  let existingProduct = basket.find((item) => item.id === id);
+  if (existingProduct) {
+    existingProduct.count += 1;
+  } else {
+    basket.push({ id: id, count: 1 });
+  }
   showsebet();
-  let say = basket.length == 0 ? "0" : basket.length;
-  cartCount.innerHTML = say;
-  cartCountMobile.innerHTML = say;
+  let say = getTotalCount();
+  count.innerHTML = say;
+  countMobile.innerHTML = say;
 
   Toastify({
     text: `Product added to basket!`,
@@ -142,12 +260,17 @@ function addBasket(id) {
   }).showToast();
 }
 
+function getTotalCount() {
+  return basket.reduce((sum, item) => sum + item.count, 0);
+}
+
 function showsebet() {
+  let total = 0;
   cartList.innerHTML = "";
   cartList.innerHTML = basket
-    .map((id, item) => {
-      const product = allFood.find((p) => p.id === id);
-
+    .map((item, index) => {
+      const product = allFood.find((p) => p.id === item.id);
+      total += product.price * item.count;
       return `
      <div class="grid md:grid-cols-4 items-center md:gap-4 gap-6 py-4">
                   <div class="col-span-2 flex items-center gap-6">
@@ -159,10 +282,14 @@ function showsebet() {
                       <h3 class="text-[15px] font-semibold text-slate-900">${product.title}</h3>
                     </div>
                   </div>
-                  
+                   <div class="flex items-center gap-3">
+          <button onclick="updateCount(${index},'minus')"  class="w-7 h-7 bg-gray-200 hover:bg-gray-300 rounded-full font-bold cursor-pointer">-</button>
+          <span class="text-sm font-bold">${item.count}</span>
+          <button onclick="updateCount(${index},'plus')"   class="w-7 h-7 bg-gray-200 hover:bg-gray-300 rounded-full font-bold cursor-pointer">+</button>
+        </div>
                   <div class="flex items-center">
-                    <h4 class="text-[15px] font-semibold text-slate-900">${product.price} $</h4>
-                    <svg onclick="removeBasket(${item})" xmlns="http://www.w3.org/2000/svg" class="w-3 cursor-pointer shrink-0 fill-red-500 ml-auto"
+                    <h4 class="text-[15px] font-semibold text-slate-900">${product.price * item.count} $</h4>
+                    <svg onclick="removeBasket(${index})" xmlns="http://www.w3.org/2000/svg" class="w-3 cursor-pointer shrink-0 fill-red-500 ml-auto"
                       viewBox="0 0 320.591 320.591">
                       <path
                         d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
@@ -176,15 +303,49 @@ function showsebet() {
     `;
     })
     .join("");
+
+  price.innerHTML = `
+   <li class="flex flex-wrap gap-4 text-sm py-3 font-bold text-blue-600">
+      Total <span class="ml-auto">${total} $</span>
+    </li>
+  `;
 }
 
-function removeBasket(item) {
-  let modal = document.getElementById("modal");
-  basket.splice(item, 1);
+function removeBasket(index) {
+  let modalBasket = document.getElementById("modalBasket");
+  basket.splice(index, 1);
   basket.length == 0
-    ? (modal.style.display = "none")
-    : (modal.style.display = "block");
+    ? (modalBasket.style.display = "none")
+    : (modalBasket.style.display = "block");
   showsebet();
-  let say = basket.length == 0 ? "0" : basket.length;
-  cartCount.innerHTML = say;
+  let say = getTotalCount();
+  count.innerHTML = say;
+  countMobile.innerHTML = say;
+  Toastify({
+    text: `Product removed to basket!`,
+    duration: 3000,
+    destination: "https://github.com/apvarun/toastify-js",
+    newWindow: true,
+    close: true,
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true,
+    style: {
+      background: "linear-gradient(to right, #ff416c, #ff4b2b)",
+    },
+    onClick: function () {},
+  }).showToast();
+}
+
+function updateCount(index, action) {
+  if (action === "plus") {
+    basket[index].count += 1;
+  } else if (action === "minus") {
+    if (basket[index].count > 1) {
+      basket[index].count -= 1;
+    }
+  } else {
+    basket.splice(item, 1);
+  }
+  showsebet();
 }
