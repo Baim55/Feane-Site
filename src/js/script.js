@@ -30,13 +30,13 @@ class Food {
   }
   showFood() {
     return `
-     <div
+     <div onclick='showDetail(${this.id})'
                 id="${this.id}"
                 data-aos="fade-up"
                 class="relative rounded-2xl overflow-hidden bg-[#222831]"
               >
                 <button
-                  onclick="event.preventDefault(); addWishlist(${this.id})"
+                  onclick="event.stopPropagation(); addWishlist(${this.id})"
                   class="absolute top-3 right-3 z-10 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow hover:scale-110 transition"
                 >
                   <i id="heart-${this.id}" class="fa-regular fa-heart text-red-500"></i>
@@ -59,8 +59,7 @@ class Food {
                   <div class="flex items-center justify-between">
                     <h6>$${this.price}</h6>
                     <a
-                      onclick="event.preventDefault(); addBasket(${this.id})"
-                      href=""
+                      onclick="event.stopPropagation(); addBasket(${this.id})"
                       class="w-[40px] h-[40px] bg-[#ffbe33] flex items-center justify-center rounded-full"
                     >
                       <i class="fa-solid fa-cart-shopping"></i>
@@ -348,4 +347,8 @@ function updateCount(index, action) {
     basket.splice(item, 1);
   }
   showsebet();
+}
+
+function showDetail(productId) {
+  window.location.href = `productDetail.htm?id=${productId}`;
 }
